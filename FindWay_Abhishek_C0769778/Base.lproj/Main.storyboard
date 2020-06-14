@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Map View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="FindWay_Abhishek_C0769778" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fyg-wX-gM8">
+                                <rect key="frame" x="0.0" y="92" width="414" height="770"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6g-43-QcK">
+                                <rect key="frame" x="323" y="769" width="64" height="69"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="69" id="4Rc-ih-bcc"/>
+                                    <constraint firstAttribute="width" constant="64" id="NXc-I4-Q2B"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="arrow_img-1">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="findMyWay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Aok-tf-oK9"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FIND MY WAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZO-XZ-zHy">
+                                <rect key="frame" x="4" y="62" width="406" height="26"/>
+                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="y12-vY-qnb">
+                                <rect key="frame" x="140" y="788" width="135" height="32"/>
+                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="135" id="v2C-VS-xj4"/>
+                                    <constraint firstAttribute="height" constant="31" id="vVZ-sX-Eci"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="" image="car" catalog="system"/>
+                                    <segment title="" image="person" catalog="system"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <connections>
+                                    <action selector="indexChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="eEi-RG-Put"/>
+                                </connections>
+                            </segmentedControl>
+                            <stackView opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="uuh-Xk-phu">
+                                <rect key="frame" x="20" y="788" width="82" height="32"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urz-xO-c9F">
+                                        <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                        <state key="normal" image="zoom_out">
+                                            <color key="titleShadowColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="zoomOut:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JyU-G2-irG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5r-mw-EHr">
+                                        <rect key="frame" x="50" y="0.0" width="32" height="32"/>
+                                        <state key="normal" image="zoom_in">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="zoomIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MJF-C0-0Jx"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="82" id="nkv-LG-I45"/>
+                                    <constraint firstAttribute="height" constant="32" id="xat-uC-hkn"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="uuh-Xk-phu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="4g4-WM-76U"/>
+                            <constraint firstItem="fyg-wX-gM8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6u4-cP-RQB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="J6g-43-QcK" secondAttribute="bottom" constant="24" id="9f4-aK-hRf"/>
+                            <constraint firstItem="KZO-XZ-zHy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="4" id="AAb-D1-bxg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KZO-XZ-zHy" secondAttribute="trailing" constant="4" id="Hvg-XD-2QQ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="fyg-wX-gM8" secondAttribute="bottom" id="Ny4-Ny-cKT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="y12-vY-qnb" secondAttribute="bottom" constant="43" id="O3T-78-TP2"/>
+                            <constraint firstItem="uuh-Xk-phu" firstAttribute="top" secondItem="KZO-XZ-zHy" secondAttribute="bottom" constant="700" id="W0Q-6Y-WcW"/>
+                            <constraint firstItem="fyg-wX-gM8" firstAttribute="top" secondItem="KZO-XZ-zHy" secondAttribute="bottom" constant="4" id="WWf-9L-g9i"/>
+                            <constraint firstItem="J6g-43-QcK" firstAttribute="leading" secondItem="y12-vY-qnb" secondAttribute="trailing" constant="48" id="arN-85-JyS"/>
+                            <constraint firstItem="J6g-43-QcK" firstAttribute="top" secondItem="KZO-XZ-zHy" secondAttribute="bottom" constant="681" id="bZa-oP-P2p"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fyg-wX-gM8" secondAttribute="trailing" id="cVg-Ta-Rht"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="J6g-43-QcK" secondAttribute="trailing" constant="27" id="n9M-Qz-yYC"/>
+                            <constraint firstItem="KZO-XZ-zHy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="18" id="oMh-cu-gCA"/>
+                            <constraint firstItem="y12-vY-qnb" firstAttribute="top" secondItem="KZO-XZ-zHy" secondAttribute="bottom" constant="700" id="rMe-lr-cfd"/>
+                            <constraint firstItem="fyg-wX-gM8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="48" id="uHC-sM-Mo1"/>
+                            <constraint firstItem="y12-vY-qnb" firstAttribute="leading" secondItem="uuh-Xk-phu" secondAttribute="trailing" constant="38" id="wNl-gh-gKd"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="uuh-Xk-phu" secondAttribute="bottom" constant="42" id="wbe-FM-vJw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="btnFindMyWay" destination="J6g-43-QcK" id="mwb-nC-6ay"/>
+                        <outlet property="btnZoomIn" destination="q5r-mw-EHr" id="N8C-ht-Csc"/>
+                        <outlet property="btnZoomOut" destination="Urz-xO-c9F" id="Wo9-Wn-UDZ"/>
+                        <outlet property="mapView" destination="fyg-wX-gM8" id="Ncg-sH-c6m"/>
+                        <outlet property="segmentType" destination="y12-vY-qnb" id="D5O-C0-geg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="119.86607142857142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="arrow_img-1" width="64" height="64"/>
+        <image name="car" catalog="system" width="64" height="46"/>
+        <image name="person" catalog="system" width="64" height="58"/>
+        <image name="zoom_in" width="32" height="32"/>
+        <image name="zoom_out" width="32" height="32"/>
+    </resources>
+</document>
