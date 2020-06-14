@@ -21,6 +21,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var aLon: CLLocationDegrees??
     var location: CLLocation?
     
+    var locArray = [String]()
+    var thoArray = [String]()
+    var pcArray = [String]()
+    
         override func viewDidLoad() {
             super.viewDidLoad()
             
@@ -191,24 +195,49 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         func getLocationInfo()
         {
-            var location = CLLocation(latitude: aLat as! CLLocationDegrees, longitude: aLon as! CLLocationDegrees) //changed!!!
-            print(location)
-
-    CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
-        print(location)
-        guard error == nil else {
-            print("Reverse geocoder failed with error" + error!.localizedDescription)
-            return
-        }
-        guard placemarks!.count > 0 else {
-            print("Problem with the data received from geocoder")
-            return
-        }
-        let pm = placemarks![0] as! CLPlacemark
-        print(pm.locality!)
-        print(pm.thoroughfare!)
-        print(pm.postalCode!)
-    })
+            //Passing coordinates of the marker
+            let location = CLLocation(latitude: aLat!!, longitude: aLon!!)
+            
+            //Using revere geocoding to get information from placemark
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
+                guard error == nil else {
+                    print("Reverse geocoder failed with error" + error!.localizedDescription)
+                    return
+                }
+                
+                guard placemarks!.count > 0 else {
+                    print("Problem with the data received from geocoder")
+                    return
+                }
+                
+                let pm = placemarks![0]
+                //Testing placemark attributes
+                
+                let ud    = UserDefaults.standard
+                let loc    = ud.string(forKey: "locality") ?? "Unknown"
+                let th  = ud.string(forKey: "thoroughfare") ?? "Unknown"
+                let pc    = ud.string(forKey: "postalCode") ?? "Unknown"
+                
+                
+                self.locArray.append(pm.locality!)
+                ud.set(self.locArray, forKey: "locality")
+                print(self.locArray)
+                
+                if let thoroughfare = pm.thoroughfare
+                {
+                    
+                    self.thoArray.append(thoroughfare)
+                    ud.set(self.thoArray, forKey: "thoroughfare")
+                    print(self.thoArray)
+                }
+                if let postalCode = pm.postalCode
+                {
+                    
+                    self.pcArray.append(postalCode)
+                    ud.set(self.pcArray, forKey: "postalCode")
+                    print(self.pcArray)
+                }
+                })
         }
     
 }
