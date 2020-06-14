@@ -68,7 +68,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             let locationInView = sender.location(in: mapView)
             let locationOnMap = mapView.convert(locationInView, toCoordinateFrom: mapView)
             addAnnotation(location: locationOnMap)
-            getLocationInfo()
+            //getLocationInfo()
         }
 
         func addAnnotation(location: CLLocationCoordinate2D)
@@ -211,34 +211,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 }
                 
                 let pm = placemarks![0]
-                //Testing placemark attributes
-                
-                let ud    = UserDefaults.standard
-                let loc    = ud.string(forKey: "locality") ?? "Unknown"
-                let th  = ud.string(forKey: "thoroughfare") ?? "Unknown"
-                let pc    = ud.string(forKey: "postalCode") ?? "Unknown"
-                
                 
                 self.locArray.append(pm.locality!)
-                ud.set(self.locArray, forKey: "locality")
                 print(self.locArray)
                 
                 if let thoroughfare = pm.thoroughfare
                 {
                     
                     self.thoArray.append(thoroughfare)
-                    ud.set(self.thoArray, forKey: "thoroughfare")
                     print(self.thoArray)
                 }
+                
                 if let postalCode = pm.postalCode
                 {
                     
                     self.pcArray.append(postalCode)
-                    ud.set(self.pcArray, forKey: "postalCode")
                     print(self.pcArray)
                 }
                 })
-        }
+         }
     
 }
 
@@ -267,10 +258,25 @@ extension MapViewController: MKMapViewDelegate {
 
         func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl)
         {
+            
+            let ud    = UserDefaults.standard
+            let loc    = ud.string(forKey: "locality") ?? "Unknown"
+            let th  = ud.string(forKey: "thoroughfare") ?? "Unknown"
+            let pc    = ud.string(forKey: "postalCode") ?? "Unknown"
+            
+            getLocationInfo()
+            
+            ud.set(self.locArray, forKey: "locality")
+            ud.set(self.thoArray, forKey: "thoroughfare")
+            ud.set(self.pcArray, forKey: "postalCode")
+            
             //Alert user that he has successfully added the location
             let alertController = UIAlertController(title: "Success", message: "Location Added to favorites", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
             alertController.addAction(cancelAction)
             present(alertController, animated: true, completion: nil)
+            
+            //Testing placemark attributes
+            
         }
 }
