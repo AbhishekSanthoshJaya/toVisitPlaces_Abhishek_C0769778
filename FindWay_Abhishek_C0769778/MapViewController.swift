@@ -21,9 +21,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var aLon: CLLocationDegrees??
     var location: CLLocation?
     
-    var locArray = [String]()
-    var thoArray = [String]()
-    var pcArray = [String]()
+    var favoritePlaces: [FavoritePlace]?
+    var favoriteAddress: String?
+    var favLocation: CLLocation?
+    let defaults = UserDefaults.standard
+    
+    var lat: Double = 0.0
+    var long: Double = 0.0
+    var drag: Bool = false
     
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -43,8 +48,76 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             
             //Added double tap gesture
             addDoubleTap()
+            loadData()
             
       }
+        func getDataFilePath() -> String {
+                   let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+                   let filePath = documentPath.appending("/places-data.txt")
+                   return filePath
+               }
+            
+            func loadData() {
+                favoritePlaces = [FavoritePlace]()
+                
+                let filePath = getDataFilePath()
+                
+                if FileManager.default.fileExists(atPath: filePath){
+                    do{
+                        //creating string of file path
+                     let fileContent = try String(contentsOfFile: filePath)
+                        
+                        let contentArray = fileContent.components(separatedBy: "\n")
+                        for content in contentArray{
+                           
+                            let placeContent = content.components(separatedBy: ",")
+                            if placeContent.count == 6 {
+                                let place = FavoritePlace(placeLat: Double(placeContent[0]) ?? 0.0, placeLong: Double(placeContent[1]) ?? 0.0, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
+                                favoritePlaces?.append(place)
+                            }
+                        }
+        //                print(places?.count)
+                    }
+                    catch{
+                        print(error)
+                    }
+                }
+            }
+            
+             override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+                    if let sbPlacesList = segue.destination as? PlacesListTableViewController{
+                        sbPlacesList.places = self.favoritePlaces
+                    }
+                }
+            
+             
+            func saveData() {
+                 let filePath = getDataFilePath()
+
+                 var saveString = ""
+                 for place in favoritePlaces!{
+                    saveString = "\(saveString)\(place.placeLat),\(place.placeLong),\(place.placeName),\(place.city),\(place.country),\(place.postalCode)\n"
+                     do{
+                    try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
+                     }
+                     catch{
+                         print(error)
+                     }
+                 }
+             }
+    
+        func dragablePin(){
+            self.lat = defaults.double(forKey: "latitude")
+            self.long = defaults.double(forKey: "longitude")
+            
+            self.drag = defaults.bool(forKey: "bool")
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long )
+            print(lat, long)
+            mapView.addAnnotation(annotation)
+        }
+    
         func addDoubleTap()
         {
             let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
@@ -108,6 +181,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
         self.present(alertController, animated: true, completion: nil)
     }
+    
     func routeMapping()
     {
             self.mapView.removeOverlays(self.mapView.overlays)
@@ -156,6 +230,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
     //Adding overlays
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
@@ -192,46 +267,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             region.span.longitudeDelta = min(region.span.longitudeDelta * 2.0, 180.0)
             mapView.setRegion(region, animated: true)
         }
-        
-        func getLocationInfo()
-        {
-            //Passing coordinates of the marker
-            let location = CLLocation(latitude: aLat!!, longitude: aLon!!)
-            
-            //Using revere geocoding to get information from placemark
-            CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
-                guard error == nil else {
-                    print("Reverse geocoder failed with error" + error!.localizedDescription)
-                    return
-                }
-                
-                guard placemarks!.count > 0 else {
-                    print("Problem with the data received from geocoder")
-                    return
-                }
-                
-                let pm = placemarks![0]
-                
-                self.locArray.append(pm.locality!)
-                print(self.locArray)
-                
-                if let thoroughfare = pm.thoroughfare
-                {
-                    
-                    self.thoArray.append(thoroughfare)
-                    print(self.thoArray)
-                }
-                
-                if let postalCode = pm.postalCode
-                {
-                    
-                    self.pcArray.append(postalCode)
-                    print(self.pcArray)
-                }
-                })
-         }
-    
-}
+    }
 
 extension MapViewController: MKMapViewDelegate {
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
@@ -256,27 +292,62 @@ extension MapViewController: MKMapViewDelegate {
             return pinAnnotation
         }
 
-        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl)
-        {
+           func getFavLocation()  {
+            CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: aLat as! CLLocationDegrees, longitude: aLon as! CLLocationDegrees)) {  placemark, error in
+              if let error = error as? CLError {
+                  print("CLError:", error)
+                  return
+               }
+              else if let placemark = placemark?[0] {
+               
+               var placeName = ""
+               var neighbourhood = ""
+               var city = ""
+               var state = ""
+               var postalCode = ""
+               var country = ""
+               
+               
+               if let name = placemark.name {
+                   placeName += name
+                           }
+               if let sublocality = placemark.subLocality {
+                   neighbourhood += sublocality
+                           }
+               if let locality = placemark.subLocality {
+                    city += locality
+                           }
+               if let area = placemark.administrativeArea {
+                             state += area
+                         }
+               if let code = placemark.postalCode {
+                             postalCode += code
+                         }
+               if let cntry = placemark.country {
+                                       country += cntry
+                                   }
+
+               
+                let place = FavoritePlace(placeLat: self.aLat as! Double, placeLong:self.aLon as! Double, placeName: placeName, city: city, postalCode: postalCode, country: country)
+             
+               self.favoritePlaces?.append(place)
+               self.saveData()
+               self.navigationController?.popToRootViewController(animated: true)
+               }
             
-            let ud    = UserDefaults.standard
-            let loc    = ud.string(forKey: "locality") ?? "Unknown"
-            let th  = ud.string(forKey: "thoroughfare") ?? "Unknown"
-            let pc    = ud.string(forKey: "postalCode") ?? "Unknown"
-            
-            getLocationInfo()
-            
-            ud.set(self.locArray, forKey: "locality")
-            ud.set(self.thoArray, forKey: "thoroughfare")
-            ud.set(self.pcArray, forKey: "postalCode")
-            
-            //Alert user that he has successfully added the location
-            let alertController = UIAlertController(title: "Success", message: "Location Added to favorites", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            present(alertController, animated: true, completion: nil)
-            
-            //Testing placemark attributes
-            
-        }
+            func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    
+                let alertController = UIAlertController(title: "Add to Favourites", message:
+                        "Do you want to add to favourites?", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "Yes", style:  .default, handler: { (UIAlertAction) in
+                        self.getFavLocation()
+                        
+                    }))
+                
+                    alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                        self.present(alertController, animated: true, completion: nil)
+    
+                }
+    }
+}
 }

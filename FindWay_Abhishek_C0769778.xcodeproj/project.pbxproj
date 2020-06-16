@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000F734B2497E24500866EE4 /* FavoritePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000F734A2497E24500866EE4 /* FavoritePlace.swift */; };
 		009811CD2491702E00C63284 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009811CC2491702E00C63284 /* AppDelegate.swift */; };
 		009811CF2491702E00C63284 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009811CE2491702E00C63284 /* SceneDelegate.swift */; };
 		009811D12491702E00C63284 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009811D02491702E00C63284 /* MapViewController.swift */; };
 		009811D42491702E00C63284 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 009811D22491702E00C63284 /* Main.storyboard */; };
 		009811D62491703100C63284 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 009811D52491703100C63284 /* Assets.xcassets */; };
 		009811D92491703100C63284 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 009811D72491703100C63284 /* LaunchScreen.storyboard */; };
+		00E118CB2496EE4D005EDD76 /* PlacesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E118CA2496EE4D005EDD76 /* PlacesListTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		000F734A2497E24500866EE4 /* FavoritePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlace.swift; sourceTree = "<group>"; };
 		009811C92491702E00C63284 /* FindWay_Abhishek_C0769778.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindWay_Abhishek_C0769778.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		009811CC2491702E00C63284 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		009811CE2491702E00C63284 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		009811D52491703100C63284 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		009811D82491703100C63284 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		009811DA2491703100C63284 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00E118CA2496EE4D005EDD76 /* PlacesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesListTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		000F73462497E1DB00866EE4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				000F734A2497E24500866EE4 /* FavoritePlace.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		009811C02491702E00C63284 = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +68,7 @@
 		009811CB2491702E00C63284 /* FindWay_Abhishek_C0769778 */ = {
 			isa = PBXGroup;
 			children = (
+				000F73462497E1DB00866EE4 /* Model */,
 				009811CC2491702E00C63284 /* AppDelegate.swift */,
 				009811CE2491702E00C63284 /* SceneDelegate.swift */,
 				009811D02491702E00C63284 /* MapViewController.swift */,
@@ -63,6 +76,7 @@
 				009811D52491703100C63284 /* Assets.xcassets */,
 				009811D72491703100C63284 /* LaunchScreen.storyboard */,
 				009811DA2491703100C63284 /* Info.plist */,
+				00E118CA2496EE4D005EDD76 /* PlacesListTableViewController.swift */,
 			);
 			path = FindWay_Abhishek_C0769778;
 			sourceTree = "<group>";
@@ -138,7 +152,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				000F734B2497E24500866EE4 /* FavoritePlace.swift in Sources */,
 				009811D12491702E00C63284 /* MapViewController.swift in Sources */,
+				00E118CB2496EE4D005EDD76 /* PlacesListTableViewController.swift in Sources */,
 				009811CD2491702E00C63284 /* AppDelegate.swift in Sources */,
 				009811CF2491702E00C63284 /* SceneDelegate.swift in Sources */,
 			);
