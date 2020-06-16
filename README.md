@@ -13,13 +13,13 @@ route from their location to the double tapped location (marker). For full requi
 ## PROJECT SCREENSHOTS
 Screenshot | Description
 --- | ---
-<img src="hhttps://i.servimg.com/u/f93/18/45/29/87/emptyt10.png" alt="permission" width="400" height="600"/> | Empty table view with message on inital start up.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/adding10.jpg" alt="zoom" width="400" height="600"/> | Add button takes you to a new VC where double tapping a pin drops a marker. Tap on the pin again and you can add the location as a favorite.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/confir10.jpg" alt="zoom" width="400" height="600"/> | Confirmation to add location to favorites.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/newfav10.png" alt="marker" width="400" height="600"/> | The location is now in the favorites table.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/editin10.jpg" alt="car" width="400" height="600"/> | Clicking on the row takes you to the location marker.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/editco10.jpg" alt="walk" width="400" height="600"/> | You can drag the pin again and edit the current favorite place.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/editco10.jpg" alt="alert" width="400" height="600"/> | Confirmation to edit current favorite.
+<img src="hhttps://i.servimg.com/u/f93/18/45/29/87/emptyt10.png" alt="permission" width="500" height="600"/> | Empty table view with message on inital start up.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/adding10.jpg" alt="zoom" width="500" height="600"/> | Add button takes you to a new VC where double tapping a pin drops a marker. Tap on the pin again and you can add the location as a favorite.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/confir10.jpg" alt="zoom" width="500" height="600"/> | Confirmation to add location to favorites.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/newfav10.png" alt="marker" width="500" height="600"/> | The location is now in the favorites table.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/editin10.jpg" alt="car" width="500" height="600"/> | Clicking on the row takes you to the location marker.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/editco10.jpg" alt="walk" width="500" height="600"/> | You can drag the pin again and edit the current favorite place.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/editco10.jpg" alt="alert" width="500" height="600"/> | Confirmation to edit current favorite.
 <img src="https://i.servimg.com/u/f93/18/45/29/87/placee10.png" alt="marker" width="400" height="600"/> | Edits location to new marker location
 <img src="https://i93.servimg.com/u/f93/18/45/29/87/delete10.png" alt="zoominout" width="400" height="600"/> | Entries can be deleted by swiping left
 
