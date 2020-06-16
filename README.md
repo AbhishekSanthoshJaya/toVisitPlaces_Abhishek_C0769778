@@ -13,7 +13,7 @@ route from their location to the double tapped location (marker). For full requi
 ## PROJECT SCREENSHOTS
 Screenshot | Description
 --- | ---
-<img src="hhttps://i.servimg.com/u/f93/18/45/29/87/emptyt10.png" alt="permission" width="500" height="600"/> | Empty table view with message on inital start up.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/emptyt10.png" alt="permission" width="500" height="600"/> | Empty table view with message on inital start up.
 <img src="https://i.servimg.com/u/f93/18/45/29/87/adding10.jpg" alt="zoom" width="500" height="600"/> | Add button takes you to a new VC where double tapping a pin drops a marker. Tap on the pin again and you can add the location as a favorite.
 <img src="https://i.servimg.com/u/f93/18/45/29/87/confir10.jpg" alt="zoom" width="500" height="600"/> | Confirmation to add location to favorites.
 <img src="https://i.servimg.com/u/f93/18/45/29/87/newfav10.png" alt="marker" width="500" height="600"/> | The location is now in the favorites table.
