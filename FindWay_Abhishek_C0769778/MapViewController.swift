@@ -10,17 +10,18 @@ import UIKit
 import MapKit
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
-    // Outlet Creation and Variables
+    
+    // Outlets and variables
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var btnZoomIn: UIButton!
     @IBOutlet weak var btnZoomOut: UIButton!
     @IBOutlet weak var btnFindMyWay: UIButton!
     @IBOutlet weak var segmentType: UISegmentedControl!
+    
     var locationManager = CLLocationManager()
     var aLat: CLLocationDegrees??
     var aLon: CLLocationDegrees??
     var location: CLLocation?
-    
     var favoritePlaces: [FavoritePlace]?
     var favoriteAddress: String?
     var favLocation: CLLocation?
@@ -30,7 +31,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var long: Double = 0.0
     var drag: Bool = false
     
-        override func viewDidLoad() {
+        override func viewDidLoad()
+        {
             super.viewDidLoad()
             
             mapView.delegate = self
@@ -50,76 +52,75 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             addDoubleTap()
             loadData()
             
-      }
-        func getDataFilePath() -> String {
-                   let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-                   let filePath = documentPath.appending("/places-data.txt")
-                   return filePath
-               }
+        }
+        func getDataFilePath() -> String
+        {
+            //Getting path to txt file
+            let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            let filePath = documentPath.appending("/places-data.txt")
+            return filePath
+        }
             
-            func loadData() {
-                favoritePlaces = [FavoritePlace]()
+        func loadData()
+        {
+            favoritePlaces = [FavoritePlace]()
                 
-                let filePath = getDataFilePath()
+            let filePath = getDataFilePath()
                 
-                if FileManager.default.fileExists(atPath: filePath){
-                    do{
-                        //creating string of file path
+            if FileManager.default.fileExists(atPath: filePath)
+            {
+                do
+                  {
+                    //Reading content from file path string
                      let fileContent = try String(contentsOfFile: filePath)
-                        
-                        let contentArray = fileContent.components(separatedBy: "\n")
-                        for content in contentArray{
+                     let contentArray = fileContent.components(separatedBy: "\n")
+                     for content in contentArray
+                     {
                            
-                            let placeContent = content.components(separatedBy: ",")
-                            if placeContent.count == 6 {
+                        let placeContent = content.components(separatedBy: ",")
+                        if placeContent.count == 6
+                            {
                                 let place = FavoritePlace(placeLat: Double(placeContent[0]) ?? 0.0, placeLong: Double(placeContent[1]) ?? 0.0, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
                                 favoritePlaces?.append(place)
                             }
-                        }
-        //                print(places?.count)
-                    }
-                    catch{
+                     }
+                  }
+                    catch
+                    {
                         print(error)
                     }
-                }
-            }
+             }
+         }
             
-             override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-                    if let sbPlacesList = segue.destination as? PlacesListTableViewController{
-                        sbPlacesList.places = self.favoritePlaces
-                    }
-                }
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+        {
+            if let sbPlacesList = segue.destination as? PlacesListTableViewController{
+            sbPlacesList.places = self.favoritePlaces
+        }
+}
             
              
-            func saveData() {
-                 let filePath = getDataFilePath()
-
-                 var saveString = ""
-                 for place in favoritePlaces!{
-                    saveString = "\(saveString)\(place.placeLat),\(place.placeLong),\(place.placeName),\(place.city),\(place.country),\(place.postalCode)\n"
-                     do{
-                    try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
+        func saveData()
+        {
+            let filePath = getDataFilePath()
+            var saveString = ""
+            for place in favoritePlaces!
+            {
+                saveString = "\(saveString)\(place.placeLat),\(place.placeLong),\(place.placeName),\(place.city),\(place.country),\(place.postalCode)\n"
+                     do
+                     {
+                        try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
                      }
-                     catch{
+                     catch
+                     {
                          print(error)
                      }
-                 }
-             }
-    
-        func dragablePin(){
-            self.lat = defaults.double(forKey: "latitude")
-            self.long = defaults.double(forKey: "longitude")
-            
-            self.drag = defaults.bool(forKey: "bool")
-            
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long )
-            print(lat, long)
-            mapView.addAnnotation(annotation)
+            }
         }
     
         func addDoubleTap()
         {
+            //Configuring doubletap gesture to add marker
             let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
                    tap.numberOfTapsRequired = 2
                    mapView.addGestureRecognizer(tap)
@@ -161,149 +162,138 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             self.mapView.addAnnotation(annotation)
         }
     
-            @IBAction func indexChanged(_ sender: Any) {
+        @IBAction func indexChanged(_ sender: Any)
+        {
             //Controlling method of transport
             routeMapping()
 
-            }
+        }
             
-            @IBAction func findMyWay(_ sender: Any) {
+        @IBAction func findMyWay(_ sender: Any)
+        {
             //Calculating route
             routeMapping()
-            }
+        }
     
-    func enableLocationServicesAlert()
-    {
-        //Alert when location services are not enabled
-        let alertController = UIAlertController(title: "Error", message:
-        "Please enable location services in settings", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+        func enableLocationServicesAlert()
+        {
+            //Alert when location services are not enabled
+            let alertController = UIAlertController(title: "Error", message:
+            "Please enable location services in settings", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
 
-        self.present(alertController, animated: true, completion: nil)
-    }
+            self.present(alertController, animated: true, completion: nil)
+        }
     
-    func routeMapping()
-    {
+        func routeMapping()
+        {
             self.mapView.removeOverlays(self.mapView.overlays)
             //Getting desination locations
-        let request = MKDirections.Request()
-        if(location?.coordinate.longitude == nil || location?.coordinate.latitude == nil)
-        {
-            enableLocationServicesAlert()
-            return
-        }
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!), addressDictionary: nil))
-        //Handling case when no marker is placed
-        
-        if(aLat == nil || aLon == nil)
-        {
+            let request = MKDirections.Request()
+            if(location?.coordinate.longitude == nil || location?.coordinate.latitude == nil)
+            {
+                enableLocationServicesAlert()
+                return
+            }
+            request.source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!), addressDictionary: nil))
+            //Handling case when no marker is placed
+            
+            if(aLat == nil || aLon == nil)
+            {
                 let alertController = UIAlertController(title: "Error", message:
                 "No destination selected", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
 
                 self.present(alertController, animated: true, completion: nil)
-        }
-        else
-        {
+            }
+            else
+            {
                 //Getting destination location
                 request.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: aLat as! CLLocationDegrees, longitude: aLon as! CLLocationDegrees), addressDictionary: nil))
                 request.requestsAlternateRoutes = false
-        }
-        //Transport type based on segment selection
-        switch segmentType.selectedSegmentIndex
-        {
-            case 0:
-                request.transportType = .walking
-            case 1:
-                request.transportType = .automobile
-            default:
-                break
-        }
-        let directions = MKDirections(request: request)
-
-        directions.calculate { [unowned self] response, error in
-            guard let unwrappedResponse = response else { return }
-
-            for route in unwrappedResponse.routes {
-                self.mapView.addOverlay(route.polyline)
-                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
             }
-        }
+            //Transport type based on segment selection
+            switch segmentType.selectedSegmentIndex
+            {
+                case 0:
+                    request.transportType = .walking
+                case 1:
+                    request.transportType = .automobile
+                default:
+                    break
+            }
+            let directions = MKDirections(request: request)
+
+            directions.calculate { [unowned self] response, error in
+                guard let unwrappedResponse = response else { return }
+
+                for route in unwrappedResponse.routes {
+                    self.mapView.addOverlay(route.polyline)
+                    self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                }
+            }
     }
     
-    //Adding overlays
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
-        renderer.strokeColor = UIColor.blue
-        //Polyline style for automobile route
-        if(segmentType.selectedSegmentIndex == 0)
-        {
-            renderer.lineWidth = 3;
+        //Adding overlays
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
+            renderer.strokeColor = UIColor.blue
+            //Polyline style for automobile route
+            if(segmentType.selectedSegmentIndex == 0)
+            {
+                renderer.lineWidth = 3;
+            }
+            //Polyline style for the on foot route
+            if(segmentType.selectedSegmentIndex == 1)
+            {
+                renderer.lineWidth = 4.0
+                renderer.lineDashPhase = 5
+                renderer.lineDashPattern = [NSNumber(value: 1),NSNumber(value:6)]
+            }
+            return renderer
         }
-        //Polyline style for the on foot route
-        if(segmentType.selectedSegmentIndex == 1)
-        {
-            renderer.lineWidth = 4.0
-            renderer.lineDashPhase = 5
-            renderer.lineDashPattern = [NSNumber(value: 1),NSNumber(value:6)]
-        }
-        return renderer
-    }
+        
+            //Zoom in feature
+            @IBAction func zoomIn(_ sender: Any)
+            {
+                var region: MKCoordinateRegion = mapView.region
+                region.span.latitudeDelta /= 2.0
+                region.span.longitudeDelta /= 2.0
+                mapView.setRegion(region, animated: true)
+            }
+        
+            //Zoom out feature
+            @IBAction func zoomOut(_ sender: Any)
+            {
+                var region: MKCoordinateRegion = mapView.region
+                region.span.latitudeDelta = min(region.span.latitudeDelta * 2.0, 180.0)
+                region.span.longitudeDelta = min(region.span.longitudeDelta * 2.0, 180.0)
+                mapView.setRegion(region, animated: true)
+            }
     
-        //Zoom in feature
-        @IBAction func zoomIn(_ sender: Any)
-        {
-            var region: MKCoordinateRegion = mapView.region
-            region.span.latitudeDelta /= 2.0
-            region.span.longitudeDelta /= 2.0
-            mapView.setRegion(region, animated: true)
-        }
-    
-        //Zoom out feature
-        @IBAction func zoomOut(_ sender: Any)
-        {
-            var region: MKCoordinateRegion = mapView.region
-            region.span.latitudeDelta = min(region.span.latitudeDelta * 2.0, 180.0)
-            region.span.longitudeDelta = min(region.span.longitudeDelta * 2.0, 180.0)
-            mapView.setRegion(region, animated: true)
-        }
-    
-    func getFavLocation()  {
+    func getFavLocation()
+    {
+    //Using reverse geolocation to get address information
     CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: aLat as! CLLocationDegrees, longitude: aLon as! CLLocationDegrees)) {  placemark, error in
-      if let error = error as? CLError {
+      if let error = error as? CLError
+      {
           print("CLError:", error)
           return
-       }
-      else if let placemark = placemark?[0] {
+      }
+      else if let placemark = placemark?[0]
+      {
        
        var placeName = ""
-       var neighbourhood = ""
        var city = ""
-       var state = ""
        var postalCode = ""
        var country = ""
        
-       
-       if let name = placemark.name {
-           placeName += name
-                   }
-       if let sublocality = placemark.subLocality {
-           neighbourhood += sublocality
-                   }
-       if let locality = placemark.subLocality {
-            city += locality
-                   }
-       if let area = placemark.administrativeArea {
-                     state += area
-                 }
-       if let code = placemark.postalCode {
-                     postalCode += code
-                 }
-       if let cntry = placemark.country {
-                               country += cntry
-                           }
+       // Getting address information from placemarks
+       if let name = placemark.name { placeName += name }
+       if let locality = placemark.subLocality { city += locality }
+       if let code = placemark.postalCode { postalCode += code }
+       if let country_pc = placemark.country { country += country_pc }
 
-       
         let place = FavoritePlace(placeLat: self.aLat as! Double, placeLong:self.aLon as! Double, placeName: placeName, city: city, postalCode: postalCode, country: country)
      
        self.favoritePlaces?.append(place)
@@ -313,12 +303,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
 }
+// Extension for annotation handling
 extension MapViewController: MKMapViewDelegate {
+    
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
         {
             //Show nothing if loction is user's location
-            
-            if annotation is MKUserLocation {
+            if annotation is MKUserLocation
+            {
                 return nil
             }
             
@@ -336,22 +328,18 @@ extension MapViewController: MKMapViewDelegate {
             return pinAnnotation
         }
 
-           
-            
-            func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-    
-                let alertController = UIAlertController(title: "Add to Favourites", message:
+        func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl)
+        {
+            //Alert to confirm user action
+            let alertController = UIAlertController(title: "Add to Favourites", message:
                         "Do you want to add to favourites?", preferredStyle: .alert)
-                    alertController.addAction(UIAlertAction(title: "Yes", style:  .default, handler: { (UIAlertAction) in
-                        self.getFavLocation()
-                        
-                    }))
+            alertController.addAction(UIAlertAction(title: "Yes", style:  .default, handler: { (UIAlertAction) in
+            self.getFavLocation() }))
                 
-                    alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                        self.present(alertController, animated: true, completion: nil)
-    
-                }
-    }
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(alertController, animated: true, completion: nil)
+        }
+}
 
 
 

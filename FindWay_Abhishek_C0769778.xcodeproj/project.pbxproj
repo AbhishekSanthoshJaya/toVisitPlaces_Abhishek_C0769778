@@ -15,6 +15,7 @@
 		009811D62491703100C63284 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 009811D52491703100C63284 /* Assets.xcassets */; };
 		009811D92491703100C63284 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 009811D72491703100C63284 /* LaunchScreen.storyboard */; };
 		00E118CB2496EE4D005EDD76 /* PlacesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E118CA2496EE4D005EDD76 /* PlacesListTableViewController.swift */; };
+		00E36A8924984EF100221B71 /* EditMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E36A8824984EF100221B71 /* EditMarkerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		009811D82491703100C63284 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		009811DA2491703100C63284 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E118CA2496EE4D005EDD76 /* PlacesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesListTableViewController.swift; sourceTree = "<group>"; };
+		00E36A8824984EF100221B71 /* EditMarkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMarkerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				009811D72491703100C63284 /* LaunchScreen.storyboard */,
 				009811DA2491703100C63284 /* Info.plist */,
 				00E118CA2496EE4D005EDD76 /* PlacesListTableViewController.swift */,
+				00E36A8824984EF100221B71 /* EditMarkerViewController.swift */,
 			);
 			path = FindWay_Abhishek_C0769778;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00E36A8924984EF100221B71 /* EditMarkerViewController.swift in Sources */,
 				000F734B2497E24500866EE4 /* FavoritePlace.swift in Sources */,
 				009811D12491702E00C63284 /* MapViewController.swift in Sources */,
 				00E118CB2496EE4D005EDD76 /* PlacesListTableViewController.swift in Sources */,

@@ -15,69 +15,67 @@ class PlacesListTableViewController: UITableViewController {
     let defaults = UserDefaults.standard
     
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    override func viewWillAppear(_ animated: Bool) {
-            loadData()
-            self.tableView.reloadData()
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        loadData()
+        self.tableView.reloadData()
             
-        }
+    }
         
-        func getDataFilePath() -> String {
-               let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-               let filePath = documentPath.appending("/places-data.txt")
-               return filePath
-           }
+    func getDataFilePath() -> String
+    {
+        let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let filePath = documentPath.appending("/places-data.txt")
+        return filePath
+    }
         
-        func loadData() {
-            places = [FavoritePlace]()
+    func loadData()
+    {
+        
+        places = [FavoritePlace]()
+        let filePath = getDataFilePath()
+        if FileManager.default.fileExists(atPath: filePath)
+        {
+                do
+                {
             
-            let filePath = getDataFilePath()
-            
-            if FileManager.default.fileExists(atPath: filePath){
-                do{
-                    //creating string of file path
                  let fileContent = try String(contentsOfFile: filePath)
-                    
-                    let contentArray = fileContent.components(separatedBy: "\n")
-                    for content in contentArray{
-                       
+                 let contentArray = fileContent.components(separatedBy: "\n")
+                     for content in contentArray
+                     {
                         let placeContent = content.components(separatedBy: ",")
-                        if placeContent.count == 6 {
-                            let place = FavoritePlace(placeLat: Double(placeContent[0]) ?? 0.0, placeLong: Double(placeContent[1]) ?? 0.0, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
-                            places?.append(place)
-                        }
+                        if placeContent.count == 6
+                            {
+                                let place = FavoritePlace(placeLat: Double(placeContent[0]) ?? 0.0, placeLong: Double(placeContent[1]) ?? 0.0, placeName: placeContent[2], city: placeContent[3], postalCode: placeContent[4], country: placeContent[5])
+                                places?.append(place)
+                            }
+                     }
                 }
-                   
-    //                print(self.places?.count)
-                }
-                catch{
-                    print(error)
-                }
-            }
-        }
+                catch { print(error) }
+         }
+     }
         
-        func deleteRow() {
+    func deleteRow()
+    {
             let filePath = getDataFilePath()
 
             var saveString = ""
-            for place in self.deleteArray!{
+            for place in self.deleteArray!
+            {
                saveString = "\(saveString)\(place.placeLat),\(place.placeLong),\(place.placeName),\(place.city),\(place.country),\(place.postalCode)\n"
-                do{
-               try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
+                do
+                {
+                    try saveString.write(toFile: filePath, atomically: true, encoding: .utf8)
                 }
-                catch{
-                    print(error)
-                }
+                catch { print(error) }
             }
-        }
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,40 +85,46 @@ class PlacesListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
+        if places!.count == 0 {
+        self.tableView.setEmptyMessage("No favorite places to show, press the add button to add a new one!")
+        } else {
+        self.tableView.restore()
+        }
         return places?.count ?? 0
     }
-        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
             
-            let place = self.places![indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tblCell")
+        let place = self.places![indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tblCell")
+        if(places!.isEmpty)
+        {
+            cell?.textLabel?.text = "No favorites to show"
+            cell?.detailTextLabel?.text = "Press the add button to open map"
+        }
+        else
+        {
             cell?.textLabel?.text = place.placeName + " , " + place.city
             cell?.detailTextLabel?.text = place.country + " , " + place.postalCode
-            return cell!
         }
+        return cell!
+     }
         
         override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             
             let editedPlace =  self.places![indexPath.row]
-            
             defaults.set(editedPlace.placeLat, forKey: "latitude")
             defaults.set(editedPlace.placeLong, forKey: "longitude")
             defaults.set(true, forKey: "bool")
-            
-            let mapVC = self.storyboard?.instantiateViewController(withIdentifier: "mapViewVC") as! MapViewController
-            mapVC.dragablePin()
+            defaults.set(indexPath.row, forKey: "edit")
+            let mapVC = self.storyboard?.instantiateViewController(withIdentifier: "editMarkerVC") as! EditMarkerViewController
             self.navigationController?.pushViewController(mapVC, animated: true)
         }
 
-        /*
-        // Override to support conditional editing of the table view.
-        override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            // Return false if you do not want the specified item to be editable.
-            return true
-        }
-        */
-        
        
-        // Override to support editing the table view.
+        // Deleting table contents
         override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             
             if editingStyle == .delete {
@@ -135,62 +139,26 @@ class PlacesListTableViewController: UITableViewController {
             
             }
         }
-    
-    
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+}
 
-        // Configure the cell...
+extension UITableView {
 
-        return cell
+    func setEmptyMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .center
+        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.sizeToFit()
+
+        self.backgroundView = messageLabel
+        self.separatorStyle = .none
     }
-    */
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    func restore() {
+        self.backgroundView = nil
+        self.separatorStyle = .singleLine
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
