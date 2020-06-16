@@ -13,14 +13,15 @@ route from their location to the double tapped location (marker). For full requi
 ## PROJECT SCREENSHOTS
 Screenshot | Description
 --- | ---
-<img src="https://i.servimg.com/u/f93/18/45/29/87/permis10.png" alt="permission" width="400" height="600"/> | Asks user for location permission on start up.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/zooms_10.jpg" alt="zoom" width="400" height="600"/> | Zooms to user location when permission is granted.
-<img src="https://i93.servimg.com/u/f93/18/45/29/87/marker10.jpg" alt="marker" width="400" height="600"/> | Adds marker on double tapping anywhere on the map. Previous markers, if any are automatically removed.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/carrou10.jpg" alt="car" width="400" height="600"/> | Route in a car is calculated on clicking the findmyway button by default.
-<img src="https://i93.servimg.com/u/f93/18/45/29/87/walkro10.png" alt="walk" width="400" height="600"/> | The walking route is calculated on moving the segment. Previous routes are removed.
-<img src="https://i.servimg.com/u/f93/18/45/29/87/alert10.jpg" alt="alert" width="400" height="600"/> | Alerts user when they try to find a route without placing a marker.
-<img src="https://i93.servimg.com/u/f93/18/45/29/87/marker10.jpg" alt="marker" width="400" height="600"/> | Adds marker on double tapping anywhere on the map.
-<img src="https://i93.servimg.com/u/f93/18/45/29/87/zoom10.jpg" alt="zoominout" width="400" height="600"/> | Added buttons to zoom in and out on the map
+<img src="hhttps://i.servimg.com/u/f93/18/45/29/87/emptyt10.png" alt="permission" width="400" height="600"/> | Empty table view with message on inital start up.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/adding10.jpg" alt="zoom" width="400" height="600"/> | Add button takes you to a new VC where double tapping a pin drops a marker. Tap on the pin again and you can add the location as a favorite.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/confir10.jpg" alt="zoom" width="400" height="600"/> | Confirmation to add location to favorites.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/newfav10.png" alt="marker" width="400" height="600"/> | The location is now in the favorites table.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/editin10.jpg" alt="car" width="400" height="600"/> | Clicking on the row takes you to the location marker.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/editco10.jpg" alt="walk" width="400" height="600"/> | You can drag the pin again and edit the current favorite place.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/editco10.jpg" alt="alert" width="400" height="600"/> | Confirmation to edit current favorite.
+<img src="https://i.servimg.com/u/f93/18/45/29/87/placee10.png" alt="marker" width="400" height="600"/> | Edits location to new marker location
+<img src="https://i93.servimg.com/u/f93/18/45/29/87/delete10.png" alt="zoominout" width="400" height="600"/> | Entries can be deleted by swiping left
 
 ## REFERENCES
 ### Assignment 1
