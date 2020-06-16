@@ -267,8 +267,52 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             region.span.longitudeDelta = min(region.span.longitudeDelta * 2.0, 180.0)
             mapView.setRegion(region, animated: true)
         }
-    }
+    
+    func getFavLocation()  {
+    CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: aLat as! CLLocationDegrees, longitude: aLon as! CLLocationDegrees)) {  placemark, error in
+      if let error = error as? CLError {
+          print("CLError:", error)
+          return
+       }
+      else if let placemark = placemark?[0] {
+       
+       var placeName = ""
+       var neighbourhood = ""
+       var city = ""
+       var state = ""
+       var postalCode = ""
+       var country = ""
+       
+       
+       if let name = placemark.name {
+           placeName += name
+                   }
+       if let sublocality = placemark.subLocality {
+           neighbourhood += sublocality
+                   }
+       if let locality = placemark.subLocality {
+            city += locality
+                   }
+       if let area = placemark.administrativeArea {
+                     state += area
+                 }
+       if let code = placemark.postalCode {
+                     postalCode += code
+                 }
+       if let cntry = placemark.country {
+                               country += cntry
+                           }
 
+       
+        let place = FavoritePlace(placeLat: self.aLat as! Double, placeLong:self.aLon as! Double, placeName: placeName, city: city, postalCode: postalCode, country: country)
+     
+       self.favoritePlaces?.append(place)
+       self.saveData()
+       self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+}
 extension MapViewController: MKMapViewDelegate {
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
         {
@@ -292,48 +336,7 @@ extension MapViewController: MKMapViewDelegate {
             return pinAnnotation
         }
 
-           func getFavLocation()  {
-            CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: aLat as! CLLocationDegrees, longitude: aLon as! CLLocationDegrees)) {  placemark, error in
-              if let error = error as? CLError {
-                  print("CLError:", error)
-                  return
-               }
-              else if let placemark = placemark?[0] {
-               
-               var placeName = ""
-               var neighbourhood = ""
-               var city = ""
-               var state = ""
-               var postalCode = ""
-               var country = ""
-               
-               
-               if let name = placemark.name {
-                   placeName += name
-                           }
-               if let sublocality = placemark.subLocality {
-                   neighbourhood += sublocality
-                           }
-               if let locality = placemark.subLocality {
-                    city += locality
-                           }
-               if let area = placemark.administrativeArea {
-                             state += area
-                         }
-               if let code = placemark.postalCode {
-                             postalCode += code
-                         }
-               if let cntry = placemark.country {
-                                       country += cntry
-                                   }
-
-               
-                let place = FavoritePlace(placeLat: self.aLat as! Double, placeLong:self.aLon as! Double, placeName: placeName, city: city, postalCode: postalCode, country: country)
-             
-               self.favoritePlaces?.append(place)
-               self.saveData()
-               self.navigationController?.popToRootViewController(animated: true)
-               }
+           
             
             func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
     
@@ -349,5 +352,6 @@ extension MapViewController: MKMapViewDelegate {
     
                 }
     }
-}
-}
+
+
+
